@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Suivi MPCI">
+<title>Suivi estival — MPCI L1 → L2</title>
+<style>
+  :root {
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b6b6b;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f5f3;
+    --color-border-tertiary: rgba(0,0,0,0.10);
+    --color-border-secondary: rgba(0,0,0,0.18);
+    --color-border-primary: rgba(0,0,0,0.30);
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: #f0f0f0;
+      --color-text-secondary: #a0a0a0;
+      --color-background-primary: #1c1c1e;
+      --color-background-secondary: #2c2c2e;
+      --color-border-tertiary: rgba(255,255,255,0.10);
+      --color-border-secondary: rgba(255,255,255,0.18);
+      --color-border-primary: rgba(255,255,255,0.30);
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-sans);background:var(--color-background-primary);color:var(--color-text-primary);min-height:100vh}
+  .app{padding:1.5rem 1rem 4rem;max-width:680px;margin:0 auto}
+  .app h1{font-size:19px;font-weight:500;color:var(--color-text-primary)}
+  .sub{font-size:13px;color:var(--color-text-secondary);margin:4px 0 1.5rem}
+  .sgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1.5rem}
+  .sc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 8px;text-align:center}
+  .sv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+  .sl{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+  .dnav{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+  .dnav button{background:none;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:5px 12px;cursor:pointer;font-size:13px;color:var(--color-text-primary)}
+  .dnav button:hover{background:var(--color-background-secondary)}
+  .ddisp{font-size:15px;font-weight:500;flex:1;text-align:center;color:var(--color-text-primary)}
+  .badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;margin-bottom:1rem;font-weight:500}
+  .pwrap{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.2rem}
+  .prow{display:flex;justify-content:space-between;margin-bottom:8px}
+  .prow span{font-size:13px;color:var(--color-text-secondary)}
+  .prow strong{font-size:13px;color:var(--color-text-primary);font-weight:500}
+  .bar{height:8px;background:var(--color-background-primary);border-radius:4px;overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+  .fill{height:100%;border-radius:4px;transition:width 0.35s}
+  .stitle{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:1.2rem 0 6px}
+  .task{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer;user-select:none}
+  .task:last-of-type{border-bottom:none}
+  .ck{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .ck.on{background:#1D9E75;border-color:#1D9E75}
+  .ck.on::after{content:'';width:5px;height:9px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);display:block}
+  .tb{flex:1}
+  .tt{font-size:14px;color:var(--color-text-primary);line-height:1.4}
+  .done .tt{text-decoration:line-through;color:var(--color-text-secondary)}
+  .ts2{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+  .tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;margin-left:6px;font-weight:500}
+  .tm{background:#E6F1FB;color:#0C447C}.tp{background:#FAECE7;color:#993C1D}
+  .tc{background:#E1F5EE;color:#085041}.tl{background:#FAEEDA;color:#854F0B}
+  .tg{background:#EEEDFE;color:#3C3489}.td{background:#FBEAF0;color:#72243E}
+  .tz{background:#FCEBEB;color:#A32D2D}.tr{background:#EAF3DE;color:#27500A}
+  .tsc{background:#F1EFE8;color:#444441}.tk{background:#9FE1CB;color:#04342C}
+  .dbox{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:12px 14px;background:var(--color-background-primary)}
+  .dhead{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .dlbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em}
+  .dots{display:flex;gap:3px}
+  .dot{width:8px;height:8px;border-radius:50%}
+  .dot.on{background:#D85A30}.dot.off{background:var(--color-border-tertiary)}
+  .dtxt{font-size:14px;color:var(--color-text-primary);line-height:1.5}
+  .dtime{font-size:12px;color:var(--color-text-secondary);margin-left:auto}
+  textarea{width:100%;min-height:70px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:var(--color-background-primary);resize:vertical}
+  textarea:focus{outline:none;border-color:var(--color-border-primary)}
+  .sbtn{background:none;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px;font-size:13px;color:var(--color-text-primary);cursor:pointer;width:100%;margin-top:8px}
+  .sbtn:hover{background:var(--color-background-secondary)}
+  .rest{text-align:center;padding:2.5rem 1rem;color:var(--color-text-secondary);font-size:15px}
+  .srow{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .srow input[type=number]{width:70px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:6px 8px;font-size:14px;color:var(--color-text-primary);background:var(--color-background-primary);text-align:center}
+  .sstat{font-size:13px;font-weight:500}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 18px;font-size:13px;color:var(--color-text-primary);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:99}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Suivi estival — MPCI L1 → L2</h1>
+  <p class="sub">Préparation grande école · Été 2026</p>
+  <div class="sgrid">
+    <div class="sc"><div class="sv" id="s0">— ★</div><div class="sl">Streak</div></div>
+    <div class="sc"><div class="sv" id="s1">—</div><div class="sl">Complétion</div></div>
+    <div class="sc"><div class="sv" id="s2">—</div><div class="sl">Jours 100%</div></div>
+    <div class="sc"><div class="sv" id="s3">—</div><div class="sl">Séances sport</div></div>
+  </div>
+  <div class="dnav">
+    <button onclick="shift(-1)">&#8592;</button>
+    <div class="ddisp" id="dd"></div>
+    <button onclick="shift(1)">&#8594;</button>
+  </div>
+  <div id="phb"></div>
+  <div id="prg"></div>
+  <div id="bdy"></div>
+  <div class="toast" id="toast"></div>
+</div>
+<script>
+const J=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const M=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const SEUIL=60;
+
+const BOOKS=[
+  {title:"Atomic Habits",auth:"James Clear",sessions:["Introduction + ch.1-2 : fondements des habitudes et règle des 1%","Ch.3-4 : les 4 lois du comportement et le rôle de l'environnement","Ch.5-6 : rendre les bonnes habitudes évidentes, réduire la friction","Ch.7-8 : la loi du désir — bundling et architecture du désir","Ch.9-10 : la loi de la facilité — la règle des 2 minutes","Ch.11-12 : la loi de la satisfaction — récompenses immédiates","Conclusion : quelles habitudes concrètes tu vas installer cet été ?"]},
+  {title:"Deep Work",auth:"Cal Newport",sessions:["Introduction + ch.1 : pourquoi le travail en profondeur est précieux","Ch.2-3 : le travail superficiel et comment le réduire","Règle 1 : travailler en profondeur — les 4 philosophies","Règle 2 : embrasser l'ennui — entraîner ta concentration","Règle 3 : quitter les réseaux sociaux — bilan coût/bénéfice","Règle 4 : drainer le superficiel — planification et email","Conclusion + plan personnel : comment intégrer le Deep Work dans ton été"]},
+  {title:"The Psychology of Money",auth:"Morgan Housel",sessions:["Ch.1-3 : personne n'est fou avec l'argent — les biais personnels","Ch.4-6 : la chance, le risque et l'effet de richesse","Ch.7-9 : liberté financière, l'homme le plus riche de la pièce, épargner","Ch.10-12 : surprises raisonnables, marge d'erreur, erreurs communes","Ch.13-15 : tu changeras, rien n'est gratuit, les bulles","Ch.16-18 : séduction du pessimisme, quand tu crois tout ce que tu lis","Conclusion + épilogue : pourquoi tout le monde pense à l'argent"]},
+  {title:"Thinking Fast and Slow",auth:"Daniel Kahneman",sessions:["Ch.1-4 : système 1 et système 2 — les deux modes de pensée","Ch.5-8 : facilité cognitive, normes, machines à tirer des conclusions","Ch.9-12 : loi des petits nombres, ancres et disponibilité","Ch.13-16 : science de la disponibilité, espoir, peur, expérience","Ch.17-20 : excès de confiance, prévisions intuitives","Ch.21-24 : utilité des décisions, aversion aux pertes","Conclusion : expérience vs mémoire, biais et meilleures décisions"]},
+  {title:"Zero to One",auth:"Peter Thiel",sessions:["Ch.1-2 : la challenge du futur, les leçons de la dot-com","Ch.3-4 : l'idéologie de la concurrence, la loi de puissance","Ch.5-6 : ce qu'un monopole vaut, la mécanique des secrets","Ch.7-8 : fondations, l'inverse des grandes entreprises","Ch.9-10 : si tu construis ça, viendront-ils ?","Ch.11-12 : man and machine — les 7 questions essentielles","Conclusion : stagnation ou singularité — quel futur tu veux construire ?"]},
+  {title:"Freakonomics",auth:"Levitt & Dubner",sessions:["Introduction + ch.1 : ce que les profs et les lutteurs de sumo ont en commun","Ch.2 : comment les agents immobiliers sont comme le Ku Klux Klan","Ch.3 : pourquoi les dealers vivent encore chez leur mère","Ch.4 : où sont partis tous les criminels ? L'avortement et le crime","Ch.5 : en quoi les parents sont-ils importants ? Les noms et le destin","Ch.6 : la vérité parfaite sur les listes de discussion","Conclusion : comment penser comme un économiste au quotidien"]},
+  {title:"Outliers",auth:"Malcolm Gladwell",sessions:["Introduction + ch.1 : l'effet Matthieu — les meilleurs ne sont pas nés meilleurs","Ch.2 : la règle des 10 000 heures — déliberate practice et expertise","Ch.3-4 : le problème du génie — QI, intelligence pratique et avantage","Ch.5 : les trois leçons de Joe Flom — timing, travail acharné, sens","Ch.6-7 : la théorie de Harlan, Kentucky — culture, honneur et violence","Ch.8 : les rizières — culture et mathématiques en Asie du Sud-Est","Conclusion : si Marita avait eu de la chance — ce que tu retiens"]},
+  {title:"Never Split the Difference",auth:"Chris Voss",sessions:["Ch.1-2 : le nouveau règlement de la négociation — la voix du DJ de nuit","Ch.3-4 : ne ressentez pas leur douleur, étiquetez-la","Ch.5-6 : maîtriser la réalité — calibrer les questions, transformer le non","Ch.7-8 : créer l'illusion du contrôle — les questions calibrées","Ch.9-10 : garantir l'exécution — les 7-38-55 et l'effet Pinocchio","Ch.11 : trouver le Cygne Noir — les 3 types de levier","Conclusion : 3 techniques que tu vas utiliser cet automne"]},
+  {title:"Influence",auth:"Robert Cialdini",sessions:["Introduction + ch.1 : les armes d'influence — la réciprocité","Ch.2 : l'engagement et la cohérence — les pieds dans la porte","Ch.3 : la preuve sociale — nous sommes ce que font les autres","Ch.4 : la sympathie — pourquoi tu achètes à tes amis","Ch.5 : l'autorité — comment les experts nous influencent","Ch.6 : la rareté — moins c'est plus","Conclusion : comment se protéger des armes d'influence"]},
+  {title:"The Hard Thing About Hard Things",auth:"Ben Horowitz",sessions:["Introduction + ch.1 : du rêve à la réalité — les fondateurs qui s'en sortent","Ch.2 : survivre à The Struggle — quand tout s'effondre","Ch.3-4 : prendre les décisions difficiles — licencier, rétrograder","Ch.5-6 : construire une culture — les règles de Ben","Ch.7 : diriger des gens qui sont meilleurs que toi","Ch.8 : comment trouver une bonne idée et la garder","Conclusion : ce que l'entrepreneuriat m'a appris — les leçons universelles"]},
+];
+
+function getBook(d){
+  const ref=new Date('2026-06-01T12:00:00');
+  const diff=Math.floor((d-ref)/(1000*60*60*24));
+  if(diff<0)return null;
+  const bIdx=Math.floor(diff/7)%BOOKS.length;
+  const sIdx=diff%7;
+  const book=BOOKS[bIdx];
+  return{book,session:book.sessions[Math.min(sIdx,book.sessions.length-1)],day:sIdx+1,total:7};
+}
+
+const SPORT={
+  1:{type:"Musculation + grip — haut du corps",detail:"Pompes 4×max · Tractions 4×max · Dips 4×max · Farmer carry 3×30 sec · Repos 90 sec",dur:45},
+  2:{type:"Boxe solo — session intense",detail:"3 rounds shadow (technique, placement) · 4-5 rounds sac (combinaisons) · 1 round corde à sauter",dur:40},
+  3:{type:"Musculation + grip — bas du corps",detail:"Squats 4×12 · Fentes 3×10/jambe · Mollets 4×20 · Farmer carry 3×30 sec · Repos 90 sec",dur:45},
+  4:{type:"Boxe solo — session intense",detail:"3 rounds shadow (technique, placement) · 4-5 rounds sac (combinaisons) · 1 round corde à sauter",dur:40},
+  5:{type:"Musculation + grip — full body",detail:"Pompes 4×max · Squats 4×12 · Tractions 3×max · Farmer carry 3×30 sec · Gainage 3×60 sec",dur:45},
+  6:{type:"Boxe légère ou repos actif",detail:"2-3 rounds shadow détendu · Étirements · ou marche rapide 30 min si fatigue",dur:30},
+};
+
+const DEFIS=[
+  {t:"Explique à voix haute, sans notes, un théorème vu cette semaine. Enregistre-toi et réécoute.",d:1,m:20},
+  {t:"Résous un LeetCode Medium sans regarder les indices pendant les 30 premières minutes.",d:3,m:30},
+  {t:"Lis un article académique en anglais lié à ta leçon et fais un résumé en 5 lignes.",d:2,m:30},
+  {t:"Essaie de résoudre un exercice de concours Polytechnique ou Centrale sur ta matière du jour.",d:3,m:60},
+  {t:"Rédige une fiche d'une page sur la diagonalisation comme si tu l'expliquais à un lycéen.",d:1,m:30},
+  {t:"Résous un problème de physique uniquement avec le formalisme lagrangien.",d:2,m:40},
+  {t:"Traduis tes notes de cours du jour en anglais, aussi fidèlement que possible.",d:1,m:25},
+  {t:"Résous un exercice en Python ET décris l'algorithme en pseudo-code mathématique.",d:2,m:45},
+  {t:"Fais une séance de révision à voix haute dans une pièce vide — parle comme en amphi.",d:2,m:30},
+  {t:"Écris la démonstration d'un résultat du cours de tête, sans ouvrir aucun document.",d:2,m:25},
+  {t:"Reprends un exercice raté récemment et refais-le de zéro sans regarder la correction.",d:2,m:40},
+  {t:"Écris 10 questions de colle sur ta leçon du jour, comme si tu étais le prof.",d:1,m:20},
+  {t:"Fais un arbre de dépendances logiques entre les 5 derniers théorèmes vus — sur papier.",d:3,m:35},
+  {t:"Résous un problème de maths uniquement en anglais — énoncé EN, rédaction EN.",d:2,m:40},
+  {t:"Envoie un message à un étudiant L2 pour demander un retour sur les cours S3.",d:2,m:15},
+  {t:"Appelle un professeur ou tuteur pour lui poser une question que tu hésitais à poser.",d:3,m:20},
+  {t:"Contacte le bureau des étudiants d'une grande école (X, CS, Mines) pour un témoignage.",d:3,m:15},
+  {t:"Explique à un proche ce que tu travailles cet été — simplement, sans jargon.",d:1,m:15},
+  {t:"Écris un README GitHub décrivant ce que tu construis cet été.",d:2,m:30},
+  {t:"Demande à quelqu'un de te poser des questions sur un cours — joue le jeu comme en colle.",d:2,m:20},
+  {t:"Envoie un email à un chercheur du LIS pour lui poser une question sur ses travaux.",d:3,m:20},
+  {t:"Propose à quelqu'un de t'écouter expliquer un sujet technique pendant 10 min.",d:2,m:15},
+  {t:"Ne touche pas ton téléphone avant 10h — matinée zéro distraction, zéro réseaux.",d:2,m:0},
+  {t:"Lève-toi 1h plus tôt que d'habitude et commence à travailler sans regarder ton téléphone.",d:3,m:0},
+  {t:"Passe toute la journée sans musique de fond — silence total pendant les sessions.",d:2,m:0},
+  {t:"Passe 1h sans écran après midi — lecture papier uniquement.",d:1,m:60},
+  {t:"Médite 20 min sans te lever ni regarder ton téléphone.",d:2,m:20},
+  {t:"Pose-toi 3 questions difficiles sur tes objectifs grandes écoles et écris tes réponses honnêtes.",d:3,m:20},
+  {t:"Écris tes 3 plus grandes peurs face aux concours. Puis une action concrète pour chacune.",d:3,m:25},
+  {t:"Planifie ta semaine entière la veille au soir et tiens-t'y sans déroger.",d:2,m:15},
+  {t:"Coupe toutes les notifications 6 heures et travaille en mode avion.",d:2,m:0},
+  {t:"Fais une revue hebdomadaire écrite : bien, mal, ce que tu corriges.",d:1,m:20},
+  {t:"Travaille 90 min d'affilée sans interruption — aucune pause avant la fin.",d:2,m:90},
+  {t:"Dors avant 23h ce soir. Éteins tout. Prépare demain avant de te coucher.",d:2,m:0},
+  {t:"Rédige un plan détaillé de ta lettre de motivation grande école.",d:2,m:40},
+  {t:"Liste 10 choses concrètes qui te distinguent d'un candidat lambda au concours GEI.",d:2,m:20},
+  {t:"Écris une première version brute de ta lettre de motivation sans chercher à la perfectionner.",d:3,m:45},
+  {t:"Cherche 3 témoignages d'anciens MPCI admis en grande école et note ce qui revient.",d:2,m:30},
+  {t:"Mets à jour ton CV aujourd'hui — ajoute toute activité récente, même petite.",d:1,m:20},
+  {t:"Recherche les dates et modalités du concours GEI-Univ et construis un rétro-planning.",d:2,m:30},
+  {t:"Identifie 3 faiblesses de ton dossier et écris une stratégie concrète pour chacune.",d:3,m:25},
+  {t:"Calcule ton budget cet été : dépenses, entrées, objectifs d'épargne.",d:1,m:20},
+  {t:"Lis un article sur un concept éco (inflation, taux directeur…) et explique en 3 phrases.",d:1,m:20},
+  {t:"Écoute un épisode de Freakonomics Radio ou Planet Money en anglais. Retiens 3 idées.",d:1,m:30},
+  {t:"Réfléchis à une compétence monétisable pendant tes études et rédige un mini-plan.",d:2,m:25},
+  {t:"Regarde une conférence TED en anglais hors de tes habitudes. Note 3 idées.",d:1,m:20},
+  {t:"Passe une session de travail entière en anglais — onglets EN, notes EN.",d:2,m:120},
+  {t:"Écoute les news BBC World Service 20 min et résume ce que tu as compris.",d:1,m:20},
+  {t:"Trouve un subreddit scientifique (r/math, r/physics) et lis 10 posts. Note ce qui t'a surpris.",d:1,m:20},
+  {t:"Dessine de mémoire un schéma complet d'un système physique vu cette semaine.",d:2,m:20},
+  {t:"Invente un problème original à partir d'un concept vu en cours. Essaie de le résoudre.",d:3,m:30},
+  {t:"Écris une analogie entre un concept mathématique abstrait et quelque chose du quotidien.",d:2,m:15},
+  {t:"Joue une partie d'échecs en analyse profonde — après chaque coup, écris pourquoi.",d:1,m:30},
+  {t:"Résous un problème de logique ou puzzle math (Project Euler) que tu n'as jamais vu.",d:2,m:30},
+  {t:"Écris la biographie en 10 lignes d'un mathématicien que tu admires.",d:1,m:20},
+  {t:"Envoie un message à quelqu'un que tu n'as pas contacté depuis 3 mois.",d:1,m:10},
+  {t:"Fais quelque chose que tu reportes depuis plus d'une semaine — maintenant, en 25 min max.",d:2,m:25},
+  {t:"Identifie une mauvaise habitude actuelle et écris un plan concret pour l'éliminer.",d:2,m:15},
+  {t:"Fais un entraînement physique différent de celui prévu — cours 30 min si tu fais la salle.",d:2,m:30},
+  {t:"Écris ce que tu veux accomplir dans 5 ans — sans te censurer, sans être raisonnable.",d:2,m:20},
+  {t:"Apprends par cœur une formule que tu as toujours cherchée dans tes notes.",d:1,m:20},
+];
+
+const PHASES=[
+  {id:'pre',  name:'Pré-été — actions immédiates',start:'2026-06-01',end:'2026-07-06',col:'#B5D4F4',tc:'#042C53'},
+  {id:'ramp', name:'Phase 1 — Ramp-up léger',    start:'2026-07-01',end:'2026-07-07',col:'#9FE1CB',tc:'#04342C'},
+  {id:'main', name:'Phase 2 — Bloc matin sérieux',start:'2026-07-08',end:'2026-08-12',col:'#F5C4B3',tc:'#993C1D'},
+  {id:'disco',name:'Phase 3 — Déconnexion totale',start:'2026-08-13',end:'2026-08-25',col:'#D3D1C7',tc:'#2C2C2A'},
+  {id:'reprise',name:'Phase 4 — Reprise rentrée', start:'2026-08-26',end:'2026-09-20',col:'#C0DD97',tc:'#173404'},
+];
+
+function dk(d){return d.toISOString().slice(0,10);}
+function getPhase(d){const k=dk(d);for(let i=PHASES.length-1;i>=0;i--)if(k>=PHASES[i].start&&k<=PHASES[i].end)return PHASES[i];return null;}
+function getSeed(d){return parseInt(dk(d).replace(/-/g,''))%9973;}
+
+function getDayInfo(d){
+  const dow=d.getDay();if(dow===0)return null;
+  const ph=getPhase(d);if(!ph)return null;
+  const s=getSeed(d);
+  const defi=DEFIS[s%DEFIS.length];
+  const sport=SPORT[dow]||SPORT[6];
+  const bookInfo=getBook(d);
+  const common=[
+    {id:'sport',title:'Sport : '+sport.type,sub:sport.detail+' · ~'+sport.dur+' min',tag:'tk'},
+    ...(bookInfo?[{id:'lecture',title:'Lecture · '+bookInfo.book.title,sub:'Session '+bookInfo.day+'/7 — '+bookInfo.session,tag:'tr'}]:[]),
+    {id:'screen',title:'Temps d\'écran loisirs < '+SEUIL+' min',sub:'Travail et sport non comptés',tag:'tsc',isScreen:true},
+  ];
+  if(ph.id==='pre')return{ph,defi,tasks:[{id:'gh',title:'Créer le compte GitHub',tag:'tg'},{id:'toeic-loc',title:'Localiser un centre TOEIC ETS à Marseille',sub:'toeic.fr — format standard L&R 2h',tag:'tl'},{id:'s3-syl',title:'Obtenir les syllabus S3 auprès d\'étudiants L2',tag:'td'},{id:'tutorat',title:'Chercher une opportunité de tutorat',sub:'Valorisation dossier grande école',tag:'td'},...common]};
+  if(ph.id==='ramp')return{ph,defi,tasks:[{id:'m30',title:'30 min de maths',sub:'Révision S1/S2 — algèbre ou analyse',tag:'tm'},{id:'lc-e',title:'1 exercice LeetCode Easy',tag:'tc'},{id:'en-p',title:'Contenu anglais passif',sub:'Podcast ou vidéo EN',tag:'tl'},...common]};
+  if(ph.id==='main'){
+    if(dow===6)return{ph:{...ph,name:'Phase 2 — Samedi'},defi,tasks:[{id:'gh-proj',title:'Session projet GitHub (2h)',sub:'Simulateur Python + couche ML',tag:'tg'},{id:'toeic-mock',title:'Mock TOEIC partiel',sub:'Cible 900+ · seuil CTI 785',tag:'tl'},{id:'m-rev',title:'Révision maths de la semaine',tag:'tm'},...common]};
+    const mh=dow===1||dow===3||dow===5;
+    return{ph,defi,tasks:[
+      mh?{id:'m-bloc',title:'Bloc Mathématiques (2h)',sub:'Diagonalisation & réduction d\'endomorphismes',tag:'tm'}:{id:'m-bloc',title:'Maths (1h)',sub:'Exercices d\'application et consolidation',tag:'tm'},
+      !mh?{id:'p-bloc',title:'Bloc Physique (1h30)',sub:'Mécanique lagrangienne & équations de Maxwell',tag:'tp'}:{id:'p-bloc',title:'Physique (45 min)',sub:'Relecture & questions de cours',tag:'tp'},
+      {id:'lc-45',title:'45 min LeetCode',sub:d<new Date('2026-07-25')?'Niveau Easy':'Niveau Medium',tag:'tc'},
+      {id:'en-1h',title:'Anglais passif (1h)',sub:'Remplacer contenus FR par EN',tag:'tl'},
+      {id:'avant-midi',title:'Tout terminé avant midi ✓',sub:'Rythme 8h → 12h respecté',tag:'td'},
+      ...common]};}
+  if(ph.id==='disco')return{ph,defi:null,tasks:[]};
+  return{ph,defi,tasks:[{id:'rv-m',title:'Synthèse maths S3',sub:'Diagonalisation, formes bilinéaires, topologie',tag:'tm'},{id:'rv-p',title:'Synthèse physique S3',sub:'Maxwell, Lagrangien, optique ondulatoire',tag:'tp'},{id:'cv-f',title:'Finaliser CV et lettre de motivation',sub:'Sport + tutorat + GitHub + LIS',tag:'td'},{id:'toeic-book',title:'Réserver session TOEIC officielle',sub:'Centre ETS agréé Marseille',tag:'tl'},...common]};
+}
+
+const STATE={};
+let cur=new Date();cur.setHours(12,0,0,0);
+
+function getState(k){return STATE[k]||(STATE[k]={tasks:{},notes:'',screen:null});}
+
+function persistLoad(k){
+  if(STATE[k])return;
+  try{const raw=localStorage.getItem('mpci6:'+k);if(raw)STATE[k]=JSON.parse(raw);}catch(e){}
+  if(!STATE[k])STATE[k]={tasks:{},notes:'',screen:null};
+}
+function persist(k){
+  try{localStorage.setItem('mpci6:'+k,JSON.stringify(STATE[k]));}catch(e){}
+}
+
+function shift(delta){cur.setDate(cur.getDate()+delta);render();}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+function toggleTask(id){
+  const k=dk(cur);persistLoad(k);
+  const st=getState(k);
+  st.tasks[id]=!st.tasks[id];
+  persist(k);render();
+  toast(st.tasks[id]?'Validé ✓':'Décoché');
+}
+
+function saveNotes(){
+  const k=dk(cur);persistLoad(k);
+  getState(k).notes=document.getElementById('ni').value;
+  persist(k);toast('Notes sauvegardées');
+}
+
+function saveScreen(){
+  const k=dk(cur);persistLoad(k);
+  const val=parseInt(document.getElementById('scr').value)||0;
+  const st=getState(k);
+  st.screen=val;st.tasks['screen']=val<=SEUIL;
+  persist(k);render();
+}
+
+function computeStats(){
+  let tT=0,dT=0,dD=0,sp=0,streak=0;
+  const allKeys=Object.keys(STATE).sort().reverse();
+  for(const k of allKeys){
+    const d2=new Date(k+'T12:00:00');const info=getDayInfo(d2);
+    if(!info||info.tasks.length===0)continue;
+    const st=STATE[k];if(!st)continue;
+    const tot=info.tasks.length+1;
+    const done=info.tasks.filter(t=>st.tasks&&st.tasks[t.id]).length+(st.tasks&&st.tasks.defi?1:0);
+    tT+=tot;dT+=done;if(done===tot)dD++;if(st.tasks&&st.tasks.sport)sp++;
+  }
+  for(const k of allKeys){
+    const d2=new Date(k+'T12:00:00');const info=getDayInfo(d2);
+    if(!info||info.tasks.length===0)continue;
+    const st=STATE[k];if(!st)break;
+    const tot=info.tasks.length+1;
+    const done=info.tasks.filter(t=>st.tasks&&st.tasks[t.id]).length+(st.tasks&&st.tasks.defi?1:0);
+    if(done===tot)streak++;else break;
+  }
+  document.getElementById('s0').textContent=streak+' ★';
+  document.getElementById('s1').textContent=tT>0?Math.round(dT/tT*100)+'%':'0%';
+  document.getElementById('s2').textContent=dD;
+  document.getElementById('s3').textContent=sp;
+}
+
+function render(){
+  const k=dk(cur);persistLoad(k);
+  const st=getState(k);
+  const dow=cur.getDay();
+  const info=getDayInfo(cur);
+
+  document.getElementById('dd').textContent=J[dow]+' '+cur.getDate()+' '+M[cur.getMonth()]+' '+cur.getFullYear();
+
+  if(dow===0){
+    document.getElementById('phb').innerHTML='<span class="badge" style="background:#D3D1C7;color:#2C2C2A">Dimanche — repos complet</span>';
+    document.getElementById('prg').innerHTML='';
+    document.getElementById('bdy').innerHTML='<div class="rest">🌿 Repos complet. Pas de sport, pas de travail.</div>';
+    computeStats();return;
+  }
+  if(!info){
+    document.getElementById('phb').innerHTML='<span class="badge" style="background:#F1EFE8;color:#5F5E5A">Hors planning</span>';
+    document.getElementById('prg').innerHTML='';
+    document.getElementById('bdy').innerHTML='<div class="rest">Navigue vers l\'été 2026 avec les flèches.</div>';
+    computeStats();return;
+  }
+  const ph=info.ph;
+  document.getElementById('phb').innerHTML='<span class="badge" style="background:'+ph.col+';color:'+ph.tc+'">'+ph.name+'</span>';
+  if(ph.id==='disco'||info.tasks.length===0){
+    document.getElementById('prg').innerHTML='';
+    document.getElementById('bdy').innerHTML='<div class="rest">☀️ Déconnexion totale — repos mérité !</div>';
+    computeStats();return;
+  }
+
+  const tasks=info.tasks;const defi=info.defi;
+  const defiDone=!!(st.tasks&&st.tasks.defi);
+  const done=tasks.filter(t=>st.tasks&&st.tasks[t.id]).length+(defiDone?1:0);
+  const tot=tasks.length+1;
+  const pct=Math.round(done/tot*100);
+  const fill=pct===100?'#1D9E75':pct>=50?'#EF9F27':'#D85A30';
+
+  document.getElementById('prg').innerHTML='<div class="pwrap"><div class="prow"><span>Progression du jour</span><strong>'+pct+'% — '+done+'/'+tot+'</strong></div><div class="bar"><div class="fill" style="width:'+pct+'%;background:'+fill+'"></div></div></div>';
+
+  const TLBL={tm:'Maths',tp:'Physique',tc:'CS',tl:'Anglais',tg:'Projet',td:'Dossier',tz:'Défi',tr:'Lecture',tsc:'Écran',tk:'Sport'};
+  let html='<div class="stitle">Tâches du jour</div>';
+
+  tasks.forEach(function(t){
+    const ok=!!(st.tasks&&st.tasks[t.id]);
+    if(t.isScreen){
+      const sv2=st.screen;const ok2=sv2!==null&&sv2<=SEUIL;
+      html+='<div class="task'+(ok?' done':'')+'" onclick="toggleTask(\''+t.id+'\')"><div class="ck'+(ok?' on':'')+'"></div><div class="tb"><div class="tt">'+t.title+'<span class="tag tsc">Écran</span></div><div class="ts2">'+t.sub+'</div><div class="srow" onclick="event.stopPropagation()"><input type="number" id="scr" min="0" max="999" placeholder="min" value="'+(sv2!==null?sv2:'')+'" onchange="saveScreen()"><span class="sstat" style="color:'+(sv2===null?'var(--color-text-secondary)':ok2?'#1D9E75':'#D85A30')+'">'+(sv2===null?'Entre tes minutes':'Seuil '+SEUIL+' min · '+(ok2?'✓ Respecté':'✗ Dépassé'))+'</span></div></div></div>';
+    }else{
+      html+='<div class="task'+(ok?' done':'')+'" onclick="toggleTask(\''+t.id+'\')"><div class="ck'+(ok?' on':'')+'"></div><div class="tb"><div class="tt">'+t.title+'<span class="tag '+t.tag+'">'+(TLBL[t.tag]||'')+'</span></div>'+(t.sub?'<div class="ts2">'+t.sub+'</div>':'')+'</div></div>';
+    }
+  });
+
+  if(defi){
+    const dots=[1,2,3].map(function(i){return'<div class="dot'+(i<=defi.d?' on':' off')+'"></div>';}).join('');
+    html+='<div class="stitle" style="margin-top:1.2rem">Défi du jour — zone de confort</div><div class="dbox"><div class="dhead"><div class="dots">'+dots+'</div><span class="dlbl">Difficulté</span>'+(defi.m>0?'<span class="dtime">~'+defi.m+' min</span>':'')+'</div><div class="dtxt">'+defi.t+'</div></div><div class="task'+(defiDone?' done':'')+'" onclick="toggleTask(\'defi\')"><div class="ck'+(defiDone?' on':'')+'"></div><div class="tb"><div class="tt">Défi relevé<span class="tag tz">Défi</span></div></div></div>';
+  }
+
+  html+='<div class="stitle" style="margin-top:1.2rem">Notes du jour</div><textarea id="ni" placeholder="Ce que tu as appris, difficultés, points à retravailler...">'+(st.notes||'').replace(/</g,'&lt;')+'</textarea><button class="sbtn" onclick="saveNotes()">Sauvegarder les notes</button>';
+
+  document.getElementById('bdy').innerHTML=html;
+  computeStats();
+}
+
+render();
+</script>
+</body>
+</html>
