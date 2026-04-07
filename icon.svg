@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <filter id="gl" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <clipPath id="cl"><rect width="512" height="512" rx="114"/></clipPath>
+</defs>
+
+<rect width="512" height="512" rx="114" fill="#050709"/>
+
+<g clip-path="url(#cl)" font-family="Georgia,'Times New Roman',serif" fill="white" font-style="italic">
+
+<!-- Grands symboles fantômes -->
+<text x="38"  y="310" font-size="120" opacity="0.025" transform="rotate(-18,38,310)">∫</text>
+<text x="330" y="420" font-size="95"  opacity="0.022" transform="rotate(12,330,420)">∑</text>
+<text x="200" y="200" font-size="80"  opacity="0.02"  transform="rotate(-8,200,200)">∇</text>
+<text x="380" y="100" font-size="70"  opacity="0.022" transform="rotate(22,380,100)">∞</text>
+<text x="440" y="300" font-size="60"  opacity="0.02"  transform="rotate(-15,440,300)">Δ</text>
+<text x="90"  y="90"  font-size="65"  opacity="0.02"  transform="rotate(10,90,90)">π</text>
+<text x="260" y="480" font-size="72"  opacity="0.022" transform="rotate(-6,260,480)">ζ</text>
+<text x="460" y="470" font-size="55"  opacity="0.02"  transform="rotate(18,460,470)">ℝ</text>
+
+<!-- Formules -->
+<text x="8"   y="38"  font-size="13"  opacity="0.19" transform="rotate(-8,8,38)">e^(iπ) + 1 = 0</text>
+<text x="52"  y="72"  font-size="9"   opacity="0.14" transform="rotate(14,52,72)">∇·E = ρ/ε₀</text>
+<text x="18"  y="108" font-size="10"  opacity="0.15" transform="rotate(-5,18,108)">S = k_B ln Ω</text>
+<text x="38"  y="148" font-size="8.5" opacity="0.13" transform="rotate(19,38,148)">∮B·dl = μ₀I</text>
+<text x="8"   y="182" font-size="11"  opacity="0.16" transform="rotate(-11,8,182)">a² + b² = c²</text>
+<text x="55"  y="222" font-size="8"   opacity="0.12" transform="rotate(7,55,222)">ρ(∂v/∂t+v·∇v)=−∇p+μ∇²v</text>
+<text x="22"  y="258" font-size="9.5" opacity="0.14" transform="rotate(-14,22,258)">λ = h/p</text>
+<text x="42"  y="296" font-size="8.5" opacity="0.13" transform="rotate(21,42,296)">∇×(∇f) = 0</text>
+<text x="12"  y="338" font-size="10"  opacity="0.15" transform="rotate(-7,12,338)">ℒ = T − V</text>
+<text x="48"  y="374" font-size="8"   opacity="0.12" transform="rotate(16,48,374)">(a+b)ⁿ=∑C(n,k)aᵏbⁿ⁻ᵏ</text>
+<text x="18"  y="414" font-size="9"   opacity="0.14" transform="rotate(-9,18,414)">∀ε>0, ∃δ>0: |f(x)−L|&lt;ε</text>
+<text x="55"  y="452" font-size="8.5" opacity="0.13" transform="rotate(13,55,452)">∇·(∇×F) = 0</text>
+<text x="25"  y="490" font-size="9"   opacity="0.14" transform="rotate(-17,25,490)">P(A|B)=P(B|A)P(A)/P(B)</text>
+<text x="148" y="22"  font-size="14"  opacity="0.18" transform="rotate(6,148,22)">E = mc²</text>
+<text x="210" y="58"  font-size="9"   opacity="0.14" transform="rotate(-12,210,58)">∑ 1/n² = π²/6</text>
+<text x="162" y="92"  font-size="8.5" opacity="0.13" transform="rotate(17,162,92)">iℏ ∂ψ/∂t = Ĥψ</text>
+<text x="192" y="132" font-size="10"  opacity="0.15" transform="rotate(-6,192,132)">F = Gm₁m₂/r²</text>
+<text x="155" y="168" font-size="8"   opacity="0.13" transform="rotate(22,155,168)">f(z)= 1/2πi ∮f(ζ)/(ζ−z)dζ</text>
+<text x="178" y="205" font-size="9.5" opacity="0.14" transform="rotate(-15,178,205)">det(AB)=det(A)det(B)</text>
+<text x="205" y="244" font-size="8.5" opacity="0.13" transform="rotate(9,205,244)">∫e^(−x²)dx = √π</text>
+<text x="162" y="282" font-size="11"  opacity="0.16" transform="rotate(-19,162,282)">∇²φ = 0</text>
+<text x="195" y="318" font-size="8"   opacity="0.12" transform="rotate(13,195,318)">d/dt(∂L/∂q̇) = ∂L/∂q</text>
+<text x="170" y="358" font-size="9.5" opacity="0.14" transform="rotate(-8,170,358)">e^x = ∑ xⁿ/n!</text>
+<text x="210" y="392" font-size="8.5" opacity="0.13" transform="rotate(18,210,392)">∮E·dl = −dΦ_B/dt</text>
+<text x="175" y="432" font-size="10"  opacity="0.15" transform="rotate(-5,175,432)">ΔxΔp ≥ ℏ/2</text>
+<text x="200" y="468" font-size="8"   opacity="0.12" transform="rotate(11,200,468)">∑₀^∞ rⁿ=1/(1−r)</text>
+<text x="165" y="500" font-size="9"   opacity="0.14" transform="rotate(-16,165,500)">ΔG = ΔH − TΔS</text>
+<text x="328" y="18"  font-size="13"  opacity="0.18" transform="rotate(-10,328,18)">E = hν</text>
+<text x="388" y="52"  font-size="10"  opacity="0.15" transform="rotate(8,388,52)">∇·B = 0</text>
+<text x="345" y="88"  font-size="8.5" opacity="0.13" transform="rotate(-20,345,88)">G_μν=8πG/c⁴ T_μν</text>
+<text x="398" y="124" font-size="11"  opacity="0.16" transform="rotate(5,398,124)">F = ma</text>
+<text x="355" y="162" font-size="8"   opacity="0.12" transform="rotate(-13,355,162)">f̂(ξ)=∫f(x)e^(−2πiξx)dx</text>
+<text x="388" y="198" font-size="9.5" opacity="0.14" transform="rotate(17,388,198)">∇×E = −∂B/∂t</text>
+<text x="345" y="235" font-size="8.5" opacity="0.13" transform="rotate(-7,345,235)">tr(AB) = tr(BA)</text>
+<text x="400" y="272" font-size="10"  opacity="0.15" transform="rotate(12,400,272)">PV = nRT</text>
+<text x="352" y="310" font-size="8"   opacity="0.12" transform="rotate(-22,352,310)">∮F·dr=∬(∇×F)·dS</text>
+<text x="395" y="346" font-size="9.5" opacity="0.14" transform="rotate(6,395,346)">R = V/I</text>
+<text x="348" y="382" font-size="8.5" opacity="0.13" transform="rotate(-16,348,382)">f(x)=∑fⁿ(a)/n!(x−a)ⁿ</text>
+<text x="390" y="418" font-size="10"  opacity="0.15" transform="rotate(20,390,418)">F = ρgV</text>
+<text x="350" y="454" font-size="8"   opacity="0.12" transform="rotate(-8,350,454)">∂²u/∂t² = c²∇²u</text>
+<text x="400" y="490" font-size="9"   opacity="0.14" transform="rotate(15,400,490)">[x̂, p̂] = iℏ</text>
+<text x="78"  y="46"  font-size="9.5" opacity="0.14" transform="rotate(-24,78,46)">ζ(s) = ∑ 1/nˢ</text>
+<text x="112" y="144" font-size="8"   opacity="0.12" transform="rotate(26,112,144)">∂ρ/∂t + ∇·J = 0</text>
+<text x="88"  y="472" font-size="9"   opacity="0.14" transform="rotate(-20,88,472)">|ℕ| &lt; |ℝ| &lt; |2^ℝ|</text>
+<text x="298" y="142" font-size="8.5" opacity="0.13" transform="rotate(24,298,142)">∇×B=μ₀J+μ₀ε₀∂E/∂t</text>
+<text x="116" y="332" font-size="9"   opacity="0.14" transform="rotate(-26,116,332)">0,1,1,2,3,5,8,13,21...</text>
+<text x="285" y="468" font-size="8"   opacity="0.12" transform="rotate(22,285,468)">det(I+εA)≈1+ε tr(A)</text>
+<text x="320" y="398" font-size="9.5" opacity="0.14" transform="rotate(-18,320,398)">ln(ab) = ln a + ln b</text>
+<text x="252" y="84"  font-size="8.5" opacity="0.13" transform="rotate(-21,252,84)">cos²θ + sin²θ = 1</text>
+<text x="310" y="50"  font-size="9"   opacity="0.14" transform="rotate(19,310,50)">||u×v||=||u||||v||sinθ</text>
+<text x="265" y="338" font-size="9.5" opacity="0.14" transform="rotate(-11,265,338)">∇·(εE) = ρ_f</text>
+<text x="445" y="390" font-size="8.5" opacity="0.13" transform="rotate(17,445,390)">∂_μ T^μν = 0</text>
+<text x="118" y="198" font-size="8"   opacity="0.12" transform="rotate(-28,118,198)">cos(a+b)=cosacosb−sinasinb</text>
+<text x="440" y="240" font-size="9"   opacity="0.14" transform="rotate(-19,440,240)">∫₀^∞ e^(−st)f(t)dt</text>
+<text x="82"  y="265" font-size="9"   opacity="0.14" transform="rotate(-16,82,265)">dx/dt = f(x,t)</text>
+<text x="130" y="412" font-size="8"   opacity="0.12" transform="rotate(25,130,412)">∮(∂Q/∂x−∂P/∂y)dA</text>
+
+<!-- Éléments géométriques -->
+<g opacity="0.07" transform="translate(88,438) rotate(-12,0,0)">
+  <circle cx="0" cy="0" r="28" fill="none" stroke="white" stroke-width="0.9"/>
+  <line x1="-36" y1="0" x2="36" y2="0" stroke="white" stroke-width="0.7"/>
+  <line x1="0" y1="-36" x2="0" y2="36" stroke="white" stroke-width="0.7"/>
+  <circle cx="28" cy="0" r="1.5" fill="white"/>
+  <circle cx="0" cy="-28" r="1.5" fill="white"/>
+</g>
+<g opacity="0.065" transform="translate(120,295) rotate(8,0,0)">
+  <line x1="-40" y1="0" x2="40" y2="0" stroke="white" stroke-width="0.7"/>
+  <line x1="0" y1="-42" x2="0" y2="28" stroke="white" stroke-width="0.7"/>
+  <path d="M -34,28 Q 0,-38 34,28" fill="none" stroke="white" stroke-width="1.1"/>
+</g>
+<g opacity="0.065" transform="translate(432,108) rotate(-14,0,0)">
+  <polygon points="-28,25 28,25 0,-30" fill="none" stroke="white" stroke-width="0.9"/>
+  <line x1="0" y1="-30" x2="0" y2="25" stroke="white" stroke-width="0.6" stroke-dasharray="2,2"/>
+</g>
+<g opacity="0.06" transform="translate(390,440) rotate(9,0,0)">
+  <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="0.7"/>
+  <path d="M -60,0 C -45,-18 -30,-18 -15,0 C 0,18 15,18 30,0 C 45,-18 60,-18 60,0" fill="none" stroke="white" stroke-width="1.1"/>
+</g>
+<g opacity="0.055" transform="translate(280,210) rotate(-20,0,0)">
+  <ellipse cx="0" cy="0" rx="38" ry="24" fill="none" stroke="white" stroke-width="0.8"/>
+  <line x1="-48" y1="0" x2="48" y2="0" stroke="white" stroke-width="0.6"/>
+  <line x1="0" y1="-32" x2="0" y2="32" stroke="white" stroke-width="0.6"/>
+</g>
+<g opacity="0.06" transform="translate(148,348) rotate(15,0,0)">
+  <line x1="0" y1="0" x2="28" y2="-22" stroke="white" stroke-width="1"/>
+  <polygon points="28,-22 18,-16 22,-8" fill="white"/>
+  <line x1="0" y1="0" x2="34" y2="10" stroke="white" stroke-width="1"/>
+  <polygon points="34,10 24,6 26,16" fill="white"/>
+</g>
+<g opacity="0.055" transform="translate(450,340) rotate(-10,0,0)">
+  <path d="M -8,-30 C 4,-30 4,-15 -2,0 C -8,15 -8,30 4,30" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="-20" y1="0" x2="20" y2="0" stroke="white" stroke-width="0.6"/>
+</g>
+
+</g>
+
+<!-- Traits Prism -->
+<g clip-path="url(#cl)">
+  <line x1="72"  y1="375" x2="258" y2="152" stroke="#FF5C1A" stroke-width="28" stroke-linecap="round" opacity="0.97" filter="url(#gl)"/>
+  <line x1="140" y1="424" x2="365" y2="138" stroke="#818CF8" stroke-width="28" stroke-linecap="round" opacity="0.97" filter="url(#gl)"/>
+  <line x1="208" y1="426" x2="428" y2="175" stroke="#34D399" stroke-width="28" stroke-linecap="round" opacity="0.97" filter="url(#gl)"/>
+</g>
+
+</svg>
