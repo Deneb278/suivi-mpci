@@ -4,14 +4,14 @@
   "description": "Tracker de préparation grande école — MPCI L1 → L2",
   "start_url": "/suivi-mpci/",
   "display": "standalone",
-  "background_color": "#0f1923",
-  "theme_color": "#0f1923",
+  "background_color": "#050709",
+  "theme_color": "#050709",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
